@@ -667,7 +667,7 @@ export default function Ajedrez() {
 
           <footer className="app-footer menu-footer">
             <div className="footer-line" />
-            <p>◆ Hecho by Kevin Borre◆</p>
+            <p>◆ Hecho con obsesión por el detalle ◆</p>
           </footer>
         </div>
       </div>
@@ -842,7 +842,7 @@ export default function Ajedrez() {
 
         <footer className="app-footer">
           <div className="footer-line" />
-          <p>◆ Hecho con obsesión por el detalle ◆</p>
+          <p>◆ Hecho by Kevin Borre ◆</p>
         </footer>
       </div>
 
@@ -1278,15 +1278,32 @@ const CSS = `
   width: min(64vh, 560px);
   height: min(64vh, 560px);
   box-shadow: inset 0 0 0 1px rgba(91,143,217,0.25);
+  touch-action: manipulation;
 }
 @media (max-width: 960px) {
-  .board { width: min(86vw, 480px); height: min(86vw, 480px); }
+  .board {
+    width: min(calc(100vw - 100px), 520px);
+    height: min(calc(100vw - 100px), 520px);
+  }
+}
+@media (max-width: 720px) {
+  .board {
+    width: min(calc(100vw - 72px), 460px);
+    height: min(calc(100vw - 72px), 460px);
+  }
+}
+@media (max-width: 420px) {
+  .board {
+    width: min(calc(100vw - 48px), 400px);
+    height: min(calc(100vw - 48px), 400px);
+  }
 }
 
 .square {
   position: absolute;
   width: 12.5%; height: 12.5%;
   cursor: pointer;
+  touch-action: manipulation;
   transition: box-shadow 0.3s ease;
 }
 .square.light {
@@ -1341,18 +1358,21 @@ const CSS = `
   transition:
     left 0.45s cubic-bezier(0.65, 0, 0.35, 1),
     top 0.45s cubic-bezier(0.65, 0, 0.35, 1);
-  pointer-events: none;
+  cursor: pointer;
+  touch-action: manipulation;
   z-index: 2;
 }
 .piece-glyph {
-  font-size: min(7.2vh, 58px);
+  font-size: clamp(26px, 7vmin, 58px);
   line-height: 1;
-  cursor: pointer;
-  pointer-events: auto;
   transition: transform 0.2s ease, filter 0.3s ease;
   user-select: none;
+  -webkit-user-select: none;
+  pointer-events: none;
 }
-.piece-glyph:hover { transform: scale(1.1) translateY(-2px); }
+@media (hover: hover) {
+  .piece:hover .piece-glyph { transform: scale(1.1) translateY(-2px); }
+}
 
 .piece-blanco .piece-glyph {
   color: var(--piece-white);
@@ -1637,4 +1657,207 @@ const CSS = `
   border-radius: 3px;
 }
 .history-panel::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+/* ═══════════════════════════════════════════════════
+   MOBILE OPTIMIZATIONS
+   ═══════════════════════════════════════════════════ */
+
+/* Tablet */
+@media (max-width: 960px) {
+  .app-root { padding: 28px 16px 20px; }
+  .app-header, .menu-header { margin-bottom: 28px; }
+  .board-frame { padding: 26px 30px 32px; }
+  .main-grid { gap: 18px !important; }
+  .side-panel { gap: 12px; }
+}
+
+/* Phones (landscape tablets and smaller) */
+@media (max-width: 720px) {
+  .app-root { padding: 20px 12px 16px; }
+
+  .app-header, .menu-header { margin-bottom: 18px; }
+  .header-line { width: 80px; margin: 0 auto 12px; }
+  .header-line + .header-line { margin: 12px auto 0; }
+  .app-title { letter-spacing: 0.22em; padding-left: 0.22em; }
+  .app-subtitle { font-size: 0.88rem; letter-spacing: 0.12em; }
+
+  .main-grid { gap: 14px !important; }
+
+  /* Side panels become compact horizontal rows */
+  .side-panel {
+    flex-direction: row !important;
+    gap: 10px;
+    align-items: stretch;
+  }
+  .side-panel > .player-card { flex: 1.3; min-width: 0; }
+  .side-panel > .captured-zone { flex: 1; min-width: 0; }
+
+  .player-card {
+    padding: 14px 14px 16px;
+  }
+  .player-ornament { top: 0; width: 32px; }
+  .player-label { font-size: 0.88rem; letter-spacing: 0.16em; }
+  .player-dot { margin: 8px 0; width: 5px; height: 5px; }
+  .player-status { font-size: 0.7rem; }
+  .thinking-dots { margin-top: 6px; }
+  .thinking-dots span { width: 5px; height: 5px; }
+
+  .captured-zone {
+    padding: 12px 14px;
+    min-height: auto;
+  }
+  .captured-label { font-size: 0.58rem; margin-bottom: 6px; letter-spacing: 0.2em; }
+  .captured-pieces { font-size: 1.15rem; gap: 1px; }
+  .captured-empty { font-size: 0.9rem; }
+  .advantage { font-size: 0.82rem; top: 10px; right: 12px; }
+
+  .board-frame {
+    padding: 20px 24px 26px;
+  }
+  .board-frame::before { inset: 10px; }
+  .board-frame::after { font-size: 17px; top: -11px; padding: 0 10px; }
+
+  .rank-label, .file-label { font-size: 11px; }
+  .rank-label { left: -18px; }
+  .file-label { bottom: -20px; }
+
+  .bottom-row {
+    margin-top: 24px;
+    grid-template-columns: 1fr !important;
+    gap: 14px;
+  }
+  .history-panel { padding: 14px 16px; max-height: 130px; }
+  .history-title { font-size: 0.66rem; margin-bottom: 10px; letter-spacing: 0.22em; }
+  .history-list { font-size: 0.98rem; gap: 8px 14px; }
+
+  .bottom-buttons {
+    flex-direction: row;
+    gap: 10px;
+  }
+  .bottom-buttons > * { flex: 1; }
+  .reset-btn { padding: 14px 20px; font-size: 0.82rem; letter-spacing: 0.18em; }
+  .reset-btn.ghost { padding: 13px 16px; font-size: 0.72rem; letter-spacing: 0.14em; }
+
+  .game-over-card { padding: 50px 36px 44px; max-width: calc(100vw - 32px); }
+  .go-ornament.top { top: 18px; }
+  .go-ornament.bottom { bottom: 18px; }
+  .go-crown { font-size: 2rem; }
+  .go-type { font-size: clamp(2.2rem, 11vw, 3.2rem); margin: 10px 0 10px; }
+  .go-winner { font-size: 1rem; margin-bottom: 22px; }
+  .go-buttons { gap: 10px; flex-direction: column; }
+  .go-buttons .reset-btn { width: 100%; }
+
+  /* Menu screen */
+  .menu-wrap { padding: 10px 0 40px; }
+  .menu-instruccion { font-size: 1.15rem; margin-bottom: 24px; }
+  .mode-cards { gap: 14px; margin-bottom: 26px; }
+  .mode-card { padding: 32px 22px 28px; }
+  .mode-icon { font-size: 2.4rem; margin-bottom: 14px; }
+  .mode-title { font-size: 1.4rem; margin-bottom: 10px; }
+  .mode-desc { font-size: 0.88rem; }
+  .mode-ornament { top: 14px; }
+  .mode-ornament.bottom { bottom: 14px; }
+
+  .bot-options { padding: 22px 16px; gap: 22px; margin-bottom: 24px; }
+  .option-group { gap: 10px; }
+  .option-label { font-size: 0.66rem; letter-spacing: 0.25em; }
+  .option-row { gap: 8px; }
+  .option-btn { padding: 12px 6px; }
+  .opt-name { font-size: 0.95rem; letter-spacing: 0.05em; }
+  .opt-desc { font-size: 0.7rem; }
+  .color-btn { padding: 16px 6px; }
+  .color-glyph { font-size: 1.8rem; margin-bottom: 4px; }
+
+  .reset-btn.big { padding: 18px 42px; font-size: 1rem; }
+
+  .app-footer { margin-top: 32px; font-size: 0.78rem; }
+}
+
+/* Very small phones */
+@media (max-width: 480px) {
+  .app-root { padding: 16px 10px 14px; }
+  .app-title { font-size: clamp(2.2rem, 11vw, 3.2rem); }
+  .app-subtitle { font-size: 0.78rem; }
+
+  /* Stack player card over captured zone vertically for more room */
+  .side-panel {
+    flex-direction: column !important;
+    gap: 8px;
+  }
+  .side-panel > .player-card,
+  .side-panel > .captured-zone { flex: none; width: 100%; }
+
+  /* Compact horizontal player card */
+  .player-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+  }
+  .player-ornament { display: none; }
+  .player-label { margin: 0; font-size: 0.82rem; flex-shrink: 0; }
+  .player-dot { margin: 0; }
+  .player-status { margin: 0; flex: 1; text-align: right; font-size: 0.68rem; }
+  .thinking-dots { margin: 0; }
+
+  /* Compact horizontal captured row */
+  .captured-zone {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    min-height: auto;
+  }
+  .captured-label {
+    margin: 0;
+    flex-shrink: 0;
+    font-size: 0.56rem;
+    letter-spacing: 0.18em;
+  }
+  .captured-pieces {
+    flex: 1;
+    font-size: 1.05rem;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .captured-pieces::-webkit-scrollbar { display: none; }
+  .advantage {
+    position: static;
+    flex-shrink: 0;
+    font-size: 0.85rem;
+  }
+
+  .board-frame { padding: 14px 18px 22px; }
+  .board-frame::before { inset: 6px; }
+  .board-frame::after { font-size: 14px; top: -9px; }
+
+  .rank-label, .file-label { font-size: 10px; opacity: 0.55; }
+  .rank-label { left: -14px; }
+  .file-label { bottom: -16px; }
+
+  .bottom-buttons { flex-direction: column; }
+  .history-panel { max-height: 100px; padding: 12px 14px; }
+  .history-list { font-size: 0.9rem; }
+
+  /* Menu even more compact */
+  .mode-cards { gap: 12px; }
+  .mode-card { padding: 26px 18px 22px; }
+  .mode-icon { font-size: 2rem; margin-bottom: 10px; }
+  .mode-title { font-size: 1.2rem; }
+  .mode-desc { font-size: 0.82rem; }
+  .bot-options { padding: 18px 12px; }
+
+  .game-over-card { padding: 42px 24px 36px; }
+  .go-type { font-size: clamp(2rem, 13vw, 2.8rem); }
+  .go-winner { font-size: 0.92rem; }
+}
+
+/* Prevent zoom on double-tap, disable text highlight on interactive elements */
+.app-root * {
+  -webkit-tap-highlight-color: transparent;
+}
+.board, .square, .piece, .mode-card, .option-btn, .reset-btn {
+  -webkit-tap-highlight-color: transparent;
+}
 `;
