@@ -667,7 +667,7 @@ export default function Ajedrez() {
 
           <footer className="app-footer menu-footer">
             <div className="footer-line" />
-            <p>◆ Hecho con obsesión por el detalle ◆</p>
+            <p>◆ Hecho by Kevin Borre◆</p>
           </footer>
         </div>
       </div>
